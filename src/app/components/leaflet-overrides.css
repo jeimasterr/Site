@@ -1,0 +1,4 @@
+.leaflet-div-icon.custom-marker {
+  background: transparent !important;
+  border: none !important;
+}
