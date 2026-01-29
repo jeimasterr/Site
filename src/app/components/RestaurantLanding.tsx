@@ -3,7 +3,7 @@ import { ActiveOrderWidget } from "@/app/components/ActiveOrderWidget";
 const DISHES_BREAKFAST = [
   {
     id: 1,
-    name: "Завтрак курильщика",
+    name: "Завтрак",
     description: "Завтрак для тех, кто не очень любит завтракать",
     price: 1000,
     priceFrom: false,
@@ -96,8 +96,8 @@ export function RestaurantLanding({ onTrackCourier }: RestaurantLandingProps) {
       </div>
 
       <main className="mx-auto max-w-[1200px] px-4 py-6">
-        {/* Виджет активного заказа — сверху или в сайдбаре на десктопе */}
-        <div className="mb-8 lg:float-right lg:ml-6 lg:mb-6 lg:w-[320px]">
+        {/* Виджет активного заказа — над всеми блюдами */}
+        <div className="mb-8 w-[343px] max-w-full">
           <ActiveOrderWidget onTrackCourier={onTrackCourier} />
         </div>
 
@@ -141,7 +141,7 @@ export function RestaurantLanding({ onTrackCourier }: RestaurantLandingProps) {
         </section>
 
         {/* Секция Комбо */}
-        <section className="clear-both mb-10 lg:clear-none">
+        <section className="mb-10">
           <h2 className="mb-1 text-lg font-bold text-[#191919]">Комбо</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {DISHES_COMBO.map((dish) => (
