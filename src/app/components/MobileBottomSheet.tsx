@@ -138,13 +138,12 @@ export function MobileBottomSheet({
 
       {/* Drawer that opens on swipe */}
       <Drawer.Root
-        modal={false}
+        modal={true}
         dismissible={true}
         open={isOpen}
         onOpenChange={handleOpenChange}
         snapPoints={[0.7, 0.95]}
         shouldScaleBackground={false}
-        scrollLockTimeout={0}
       >
         <Drawer.Portal>
           <Drawer.Overlay className="fixed inset-0 bg-black/40 z-40" />
@@ -193,19 +192,17 @@ export function MobileBottomSheet({
               </div>
             </div>
 
-            {/* Full details - scrollable when fully expanded */}
-            <div className="flex-1 bg-white rounded-t-xl flex flex-col min-h-0 overflow-hidden">
+            {/* Full details - with fixed button at bottom */}
+            <div className="flex-1 bg-white rounded-t-xl flex flex-col min-h-0">
               {/* Scrollable content */}
               <div
-                className="flex-1 overflow-y-auto"
+                className="flex-1 overflow-y-auto overscroll-contain"
                 style={{
                   WebkitOverflowScrolling: "touch",
-                  overscrollBehavior: "contain",
-                  touchAction: "pan-y",
                 }}
               >
                 {/* Header Info */}
-                <div className="px-4 pb-3 pt-4 border-b border-[#e2e2e8] flex-shrink-0">
+                <div className="px-4 pb-3 pt-4 border-b border-[#e2e2e8]">
                   <Drawer.Title asChild>
                     <h2
                       className="text-[32px] font-bold text-[#191919] leading-none mb-2"
@@ -241,8 +238,8 @@ export function MobileBottomSheet({
                   </Drawer.Description>
                 </div>
 
-                {/* Scrollable order items */}
-                <div className="px-4 py-4">
+                {/* Order items */}
+                <div className="px-4 py-4 pb-6">
                   <h3
                     className="text-lg font-bold mb-4 text-[#191919]"
                     style={{ fontFamily: "var(--font-inter)" }}
@@ -298,7 +295,7 @@ export function MobileBottomSheet({
                     ))}
                   </div>
 
-                  <div className="pt-4 border-t border-[#e2e2e8] mb-4">
+                  <div className="pt-4 border-t border-[#e2e2e8]">
                     <div className="flex justify-between items-center">
                       <p
                         className="text-lg text-[#191919] font-bold"
@@ -322,9 +319,9 @@ export function MobileBottomSheet({
               </div>
 
               {/* Call Restaurant Button - Fixed at bottom */}
-              <div className="px-4 pb-6 pt-3 border-t border-[#e2e2e8] flex-shrink-0 bg-white rounded-b-xl">
+              <div className="px-4 pb-6 pt-3 border-t border-[#e2e2e8] flex-shrink-0 bg-white sticky bottom-0">
                 <button
-                  className="w-full border-2 border-[#ffcc00] text-[#191919] uppercase font-bold h-[40px] rounded-[50px] hover:bg-[#fffbeb] transition-colors"
+                  className="w-full border-2 border-[#ffcc00] text-[#191919] uppercase font-bold h-[40px] rounded-[50px] hover:bg-[#fffbeb] active:bg-[#fff4cc] transition-colors"
                   style={{ fontFamily: "var(--font-inter)" }}
                 >
                   ПОЗВОНИТЬ В РЕСТОРАН
