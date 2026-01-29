@@ -144,19 +144,16 @@ export function MobileBottomSheet({
         dismissible={true}
         open={isOpen}
         onOpenChange={handleOpenChange}
-        snapPoints={[0.7, 0.95]}
+        snapPoints={[0.7, 1]}
+        fadeFromIndex={1}
         shouldScaleBackground={false}
-        activeSnapPoint={isExpanded ? 0.95 : 0.7}
       >
         <Drawer.Portal>
           <Drawer.Overlay className="fixed inset-0 bg-black/40 z-40 pointer-events-none" />
           <Drawer.Content
             ref={contentRef}
             className="fixed bottom-0 left-0 right-0 max-w-[375px] mx-auto bg-[#474a51] rounded-t-xl shadow-[0px_-4px_20px_rgba(0,0,0,0.2)] z-50 flex flex-col outline-none min-h-0"
-            style={{ 
-              maxHeight: "95vh",
-              minHeight: "70vh",
-            }}
+            style={{}}
           >
             {/* Drag Handle */}
             <div 
