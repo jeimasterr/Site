@@ -152,10 +152,10 @@ export function MobileBottomSheet({
           <Drawer.Overlay className="fixed inset-0 bg-black/40 z-40 pointer-events-none" />
           <Drawer.Content
             ref={contentRef}
-            className="fixed bottom-0 left-0 right-0 max-w-[375px] mx-auto bg-[#474a51] rounded-t-xl shadow-[0px_-4px_20px_rgba(0,0,0,0.2)] z-50 flex flex-col outline-none"
+            className="fixed bottom-0 left-0 right-0 max-w-[375px] mx-auto bg-[#474a51] rounded-t-xl shadow-[0px_-4px_20px_rgba(0,0,0,0.2)] z-50 flex flex-col outline-none min-h-0"
             style={{ 
               maxHeight: "95vh",
-              height: "auto"
+              minHeight: "70vh",
             }}
           >
             {/* Drag Handle */}
@@ -201,12 +201,12 @@ export function MobileBottomSheet({
               </div>
             </div>
 
-            {/* Full details - properly structured with scroll and fixed button */}
-            <div className="flex-1 bg-white rounded-t-xl flex flex-col min-h-0 overflow-hidden">
+            {/* Full details - scroll area + кнопка всегда внизу */}
+            <div className="flex-1 min-h-0 flex flex-col bg-white rounded-t-xl overflow-hidden">
               {/* Scrollable content area */}
               <div
                 ref={scrollRef}
-                className="flex-1 overflow-y-auto"
+                className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden"
                 data-vaul-no-drag
                 style={{
                   WebkitOverflowScrolling: "touch",
@@ -334,9 +334,9 @@ export function MobileBottomSheet({
                 </div>
               </div>
 
-              {/* Call Restaurant Button - OUTSIDE scroll area, truly fixed */}
+              {/* Кнопка «Позвонить» — всегда прижата к низу drawer */}
               <div 
-                className="px-4 pb-6 pt-3 border-t border-[#e2e2e8] flex-shrink-0 bg-white"
+                className="px-4 pb-6 pt-3 border-t border-[#e2e2e8] flex-shrink-0 bg-white rounded-b-xl"
                 data-vaul-no-drag
               >
                 <button
