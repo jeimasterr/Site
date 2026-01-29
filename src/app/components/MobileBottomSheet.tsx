@@ -13,6 +13,7 @@ export function MobileBottomSheet({
   const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const handleOpenChange = (open: boolean) => {
     setIsOpen(open);
@@ -116,6 +117,7 @@ export function MobileBottomSheet({
           document.addEventListener(
             "touchmove",
             handleTouchMove,
+            { passive: true }
           );
           document.addEventListener("touchend", handleTouchEnd);
         }}
@@ -138,27 +140,34 @@ export function MobileBottomSheet({
 
       {/* Drawer that opens on swipe */}
       <Drawer.Root
-        modal={true}
+        modal={false}
         dismissible={true}
         open={isOpen}
         onOpenChange={handleOpenChange}
         snapPoints={[0.7, 0.95]}
         shouldScaleBackground={false}
+        activeSnapPoint={isExpanded ? 0.95 : 0.7}
       >
         <Drawer.Portal>
-          <Drawer.Overlay className="fixed inset-0 bg-black/40 z-40" />
+          <Drawer.Overlay className="fixed inset-0 bg-black/40 z-40 pointer-events-none" />
           <Drawer.Content
             ref={contentRef}
             className="fixed bottom-0 left-0 right-0 max-w-[375px] mx-auto bg-[#474a51] rounded-t-xl shadow-[0px_-4px_20px_rgba(0,0,0,0.2)] z-50 flex flex-col outline-none"
-            style={{ maxHeight: "95vh" }}
+            style={{ 
+              maxHeight: "95vh",
+              height: "auto"
+            }}
           >
             {/* Drag Handle */}
-            <div className="flex justify-center pt-4 pb-3 flex-shrink-0">
+            <div 
+              className="flex justify-center pt-4 pb-3 flex-shrink-0 cursor-grab active:cursor-grabbing"
+              data-vaul-no-drag={false}
+            >
               <div className="w-10 h-1 bg-[#d9d9d9] rounded-full opacity-50" />
             </div>
 
             {/* Compact view when partially open */}
-            <div className="px-4 pb-4 flex-shrink-0">
+            <div className="px-4 pb-4 flex-shrink-0" data-vaul-no-drag={false}>
               {/* ETA Text */}
               <p
                 className="text-white text-center mb-3 text-sm"
@@ -192,13 +201,20 @@ export function MobileBottomSheet({
               </div>
             </div>
 
-            {/* Full details - with fixed button at bottom */}
-            <div className="flex-1 bg-white rounded-t-xl flex flex-col min-h-0">
-              {/* Scrollable content */}
+            {/* Full details - properly structured with scroll and fixed button */}
+            <div className="flex-1 bg-white rounded-t-xl flex flex-col min-h-0 overflow-hidden">
+              {/* Scrollable content area */}
               <div
-                className="flex-1 overflow-y-auto overscroll-contain"
+                ref={scrollRef}
+                className="flex-1 overflow-y-auto"
+                data-vaul-no-drag
                 style={{
                   WebkitOverflowScrolling: "touch",
+                  overscrollBehavior: "contain",
+                }}
+                onTouchStart={(e) => {
+                  // Prevent drawer drag when scrolling content
+                  e.stopPropagation();
                 }}
               >
                 {/* Header Info */}
@@ -239,7 +255,7 @@ export function MobileBottomSheet({
                 </div>
 
                 {/* Order items */}
-                <div className="px-4 py-4 pb-6">
+                <div className="px-4 py-4">
                   <h3
                     className="text-lg font-bold mb-4 text-[#191919]"
                     style={{ fontFamily: "var(--font-inter)" }}
@@ -295,7 +311,7 @@ export function MobileBottomSheet({
                     ))}
                   </div>
 
-                  <div className="pt-4 border-t border-[#e2e2e8]">
+                  <div className="pt-4 border-t border-[#e2e2e8] mb-4">
                     <div className="flex justify-between items-center">
                       <p
                         className="text-lg text-[#191919] font-bold"
@@ -318,11 +334,18 @@ export function MobileBottomSheet({
                 </div>
               </div>
 
-              {/* Call Restaurant Button - Fixed at bottom */}
-              <div className="px-4 pb-6 pt-3 border-t border-[#e2e2e8] flex-shrink-0 bg-white sticky bottom-0">
+              {/* Call Restaurant Button - OUTSIDE scroll area, truly fixed */}
+              <div 
+                className="px-4 pb-6 pt-3 border-t border-[#e2e2e8] flex-shrink-0 bg-white"
+                data-vaul-no-drag
+              >
                 <button
                   className="w-full border-2 border-[#ffcc00] text-[#191919] uppercase font-bold h-[40px] rounded-[50px] hover:bg-[#fffbeb] active:bg-[#fff4cc] transition-colors"
                   style={{ fontFamily: "var(--font-inter)" }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    alert("Звоним в ресторан...");
+                  }}
                 >
                   ПОЗВОНИТЬ В РЕСТОРАН
                 </button>
